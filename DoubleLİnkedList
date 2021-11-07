@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+	int data;
+	struct node *next;
+	struct node *prev;
+};
+
+struct node *addFront(struct node *head, int key){
+	struct node *new = (struct node*)malloc(sizeof(struct node));
+	new->data=key;
+	new->next=head;
+	new->prev=NULL;
+	if(head!=NULL)
+		head->prev=new;
+	head=new;
+	return head;
+}
+
+struct node *addLast(struct node *head, int key){
+	struct node *new = (struct node*)malloc(sizeof(struct node));
+	new->data=key;
+	new->next=NULL;
+	if(head==NULL){
+		new->prev=NULL;
+		head=new;
+	}
+	else{
+		struct node *last=head;
+		while(last->next!=NULL){
+			last=last->next;
+		}
+		last->next=new;
+		new->prev=last;
+	}
+	return head;
+}
+
+struct node *removed(struct node *head,int key){
+	if(head==NULL){
+		printf("This list is empty");
+	}
+	else{
+		struct node *deleted=head;
+		if(head->data==key){
+			head=head->next;
+			free(deleted);
+			head->prev=NULL;
+		}
+		else{
+			
+			while(deleted!=NULL&&deleted->data!=key){
+				deleted=deleted->next;
+			}
+			if(deleted==NULL){
+				return head;
+			
+			}
+			deleted->prev->next=deleted->next;	
+			
+			if(deleted->next!=NULL){
+				deleted->next->prev=deleted->prev;
+			}
+			free(deleted);
+			
+		}
+	}
+	return head;
+}
+
+void listAll(struct node *head){
+	if(head==NULL){
+		printf("This list is empty");
+	}
+	else{
+		while(head!=NULL){
+			printf("%d\n",head->data);
+			head=head->next;
+		}
+	}
+}
+void listReverse(struct node *head){
+	if(head==NULL){
+		printf("This list is empty");
+	}
+	else{
+		while(head->next!=NULL){
+			head=head->next;	
+		}
+		while(head!=NULL){
+				printf("%d\n",head->data);
+				head=head->prev;
+		}
+		
+	}
+}
+int main(int argc, char *argv[]) {
+	
+	struct node *head=NULL;
+	head=addFront(head,5);
+	head=addFront(head,6);
+	listAll(head);
+	printf("*************\n");
+	head=addLast(head,7);
+	listAll(head);
+	printf("*************\n");
+	head=removed(head,5);
+	listAll(head);
+	printf("*************\n");
+	listReverse(head);
+	return 0;
+}
