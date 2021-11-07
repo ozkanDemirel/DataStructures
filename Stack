@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define STACK_SIZE 4
+typedef struct{
+	int data[STACK_SIZE];
+	int top;
+}stack;
+
+void init(stack *stk){
+	stk->top=-1;
+}
+
+void push(stack *stk, int key){
+	if(stk->top==STACK_SIZE-1)
+		printf("Stack is full");
+	else{
+		/*stk->top++;
+		stk->data[stk->top]=key;*/
+		stk->data[++stk->top]=key;
+	}
+}
+
+int pop(stack *stk){
+	
+	if(stk->top==-1){
+		printf("\nStack is empty");
+		return -100;
+	}
+	else{
+		/*int key = stk->data[stk->top];
+		stk->top--;
+		return key;*/
+		return stk->data[stk->top--];
+	}
+}
+
+
+
+int main(int argc, char *argv[]) {
+	
+	stack stk;    
+	init(&stk);   
+	push(&stk,8); 
+	push(&stk,3); 
+	push(&stk,2); 
+	push(&stk,7); 
+	push(&stk,6); 
+	printf("\n%d",pop(&stk));
+	printf("\n%d",pop(&stk));
+	printf("\n%d",pop(&stk));
+	printf("\n%d",pop(&stk));
+	printf("\n%d",pop(&stk));
+	
+	return 0;
+}
